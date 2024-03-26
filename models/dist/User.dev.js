@@ -1,33 +1,27 @@
+"use strict";
 
-module.exports=(sequelize,DataTypes)=>{
-const  User = sequelize.define("User",{
-    
-    firstName:{
-        type:DataTypes.STRING,
-        allowNull:false,
-        
+module.exports = function (sequelize, DataTypes) {
+  var User = sequelize.define("User", {
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false
     },
-    lastName:{
-        type:DataTypes.STRING,
-        allowNull:false,
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: false
     },
-    age:{
-        type:DataTypes.INTEGER,
-        allowNull: false,
-        
+    age: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
-    email:{
-        type:DataTypes.STRING,
-        unique:true,
-        allowNull: false,
-        
-    },
-});
-return User;
-}
-
-
-// async function createUser(firstName,lastName,email){
+    email: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false
+    }
+  });
+  return User;
+}; // async function createUser(firstName,lastName,email){
 //     try{
 //         const user= await User.create({
 //             firstName:firstName,
@@ -41,8 +35,6 @@ return User;
 //     }
 // }
 // createUser('Shantanu','Badgujar','shantanu.23@outlook.com');
-
-
 // async function getUser(){
 //     try{
 //         const users=await User.findAll();
@@ -52,11 +44,7 @@ return User;
 //         console.error("Error getting the users", error);
 //     }
 // }
-
 // getUser();
-
-
-
 // async function updateUser(id, newData) {
 //     try {
 //       const user = await User.findByPk(id);
@@ -70,6 +58,4 @@ return User;
 //       console.error('Error updating user:', error);
 //     }
 //   }
-  
 //   updateUser(1, { firstName: 'Shanzo', lastName:'B' });
-
