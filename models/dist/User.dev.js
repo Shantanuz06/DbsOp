@@ -2,22 +2,28 @@
 
 module.exports = function (sequelize, DataTypes) {
   var User = sequelize.define("User", {
+    id:{
+      type: DataTypes.INTEGER,
+        primaryKey: true,
+        unique: true,
+        autoIncrement: true,
+        allowNull: false,
+    },
     firstName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     lastName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     age: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
     },
     email: {
       type: DataTypes.STRING,
-      unique: true,
-      allowNull: false
+      allowNull: false,
     }
   });
   return User;

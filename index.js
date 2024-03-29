@@ -2,7 +2,27 @@ const express = require("express");
 const db = require('./models');
 const {User} =require('./models')
 const app= express();
-const PORT =  process.env.PORT || 3001;
+const Joi = require('joi');
+const PORT =  process.env.PORT || 5000;
+
+const userSchema = Joi.object({
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
+    age: Joi.number().integer().min(0).required(),
+    email: Joi.string().email().required()
+});
+
+
+const validateUserData = (req, res, next) => {
+    const { error } = userSchema.validate(req.body);
+    if (error) {
+        return res.status(400).send(error.details[0].message);
+    }
+    next();
+};
+
+app.use(express.json());
+
 
 
 app.get('/', (req,res)=>{
@@ -18,18 +38,30 @@ app.get('/select', (req, res) => {
     
 });
 
-app.get('/insert', (req, res) => { 
-    User.create({
-        firstName:"John",
-        lastName: "Doe",
-        age:"25",
-        email: 'john@gmail.com'
-    }).catch((err)=>{
-        if(err){
+app.post('/insert', validateUserData, (req, res) => {
+    const { firstName, lastName, age, email } = req.body;
+    User.create({ firstName, lastName, age, email })
+        .then(() => {
+            res.send('Data inserted successfully');
+        }).catch((err) => {
             console.log(err);
-        }
-    });
-    res.send('Inserting Data, Refresh Database');
+        });
+});
+
+/*
+// Insert Data in this format in body
+{
+    "firstName":"John",
+    "lastName":"Doe",
+    "age":"25",
+    "email": "jonney@gmail.com"
+}
+
+*/
+
+app.get('/delete',(req,res) =>{
+    User.destroy({where:{id:1}});
+    res.send('Deleting a user with id of 1');
 });
 
 db.sequelize.sync().then((req) => {
